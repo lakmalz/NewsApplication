@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Lz News</string>
+    <string name="title_activity_home">News</string>
+    <string name="title_headline">Headline</string>
+    <string name="title_custom_news">News</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_headlines">Headlines</string>
+    <string name="title_news">News</string>
+    <string name="title_ptofile">Profile</string>
+    <string name="register">Register</string>
+    <string name="message_logout">You are logout.</string>
+    <string name="message_empty_keyword">Please check a keyword.</string>
+    <string name="message_empty_email">Please enter email address.</string>
+    <string name="logout">Logout</string>
+    <string name="message_success_registration">Thank you registered. Your registration is complete.</string>
+    <string name="email">Email</string>
+    <string name="no_internet">No Internet.</string>
+    <string name="no_internet_message">Please check your internet settings.</string>
+</resources>

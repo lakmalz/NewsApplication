@@ -1,0 +1,11 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/perl_white</item>
+        <item name="colorPrimaryDark">@color/perl_white_dark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>s
+
+</resources>
