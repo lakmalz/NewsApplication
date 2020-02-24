@@ -39,6 +39,10 @@ class HomeActivity : BaseActivity() {
         transaction.commit()
     }
 
+    override fun onBackPressed() {
+        finish()
+    }
+
     private fun initUI() {
 
         nav_view.setOnNavigationItemSelectedListener {

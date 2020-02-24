@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#FFFEFE"
+    android:background="@drawable/rounded_bg"
+    android:paddingBottom="@dimen/dimens_16dp"
     android:orientation="vertical">
 
     <ImageView
@@ -13,10 +14,9 @@
         android:layout_height="0dp"
         android:adjustViewBounds="true"
         android:scaleType="fitStart"
+        android:layout_marginTop="@dimen/dimens_16dp"
         android:src="@drawable/placeholder_news"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_published" />
 
 
     <TextView
@@ -34,37 +34,37 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@drawable/shap_gradient"
+        android:gravity="bottom"
         android:padding="@dimen/dimens_16dp"
         android:textColor="@color/white"
         android:textSize="@dimen/font_16sp"
+        android:layout_marginTop="@dimen/dimens_16dp"
         android:textStyle="bold"
-        android:gravity="bottom"
         app:layout_constraintBottom_toBottomOf="@+id/img_article"
-        app:layout_constraintTop_toTopOf="@+id/img_article" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_published" />
 
     <TextView
         android:id="@+id/txt_author"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="@dimen/dimens_16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:textColor="@color/ripple_color"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_description" />
+        app:layout_constraintEnd_toStartOf="@+id/txt_published"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txt_published"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimens_16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:textColor="@color/ripple_color"
         android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_description" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
