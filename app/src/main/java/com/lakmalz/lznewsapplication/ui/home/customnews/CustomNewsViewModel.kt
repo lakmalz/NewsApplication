@@ -11,8 +11,8 @@ class CustomNewsViewModel @Inject constructor(private val newsRepo: NewsReposito
 
     fun getCustomNewListLiveData() = newsRepo.getCustomNewsListLiveData()
 
-    fun fetchCustomNewsList(@CustomKeyWords searchCategory: String?) {
-        newsRepo.fetchCustomNewList(searchCategory)
+    fun fetchCustomNewsList(@CustomKeyWords searchCategory: String?, pageSize: Int, page: Int) {
+        newsRepo.fetchCustomNewList(searchCategory, pageSize, page)
     }
 
 

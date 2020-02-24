@@ -9,8 +9,8 @@ import retrofit2.http.Query
 interface NewsService {
 
     @GET("v2/top-headlines")
-    fun getHeadLines(@Query("country") country: String?): Observable<NewsListResponse>
+    fun getHeadLines(@Query("country") country: String?, @Query("pageSize") pageSize: Int, @Query("page") page: Int): Observable<NewsListResponse>
 
     @GET("v2/everything")
-    fun getCustomNews(@Query("q") @CustomKeyWords searchCategory: String?): Observable<NewsListResponse>
+    fun getCustomNews(@Query("q") @CustomKeyWords searchCategory: String?, @Query("pageSize") pageSize: Int, @Query("page") page: Int): Observable<NewsListResponse>
 }

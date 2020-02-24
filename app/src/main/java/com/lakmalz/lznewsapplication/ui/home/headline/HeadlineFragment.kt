@@ -3,7 +3,6 @@ package com.lakmalz.lznewsapplication.ui.home.headline
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.dgreenhalgh.android.simpleitemdecoration.linear.DividerItemDecoration
 import com.dgreenhalgh.android.simpleitemdecoration.linear.EndOffsetItemDecoration
 import com.dgreenhalgh.android.simpleitemdecoration.linear.StartOffsetItemDecoration
@@ -19,14 +19,19 @@ import com.lakmalz.lznewsapplication.data.models.Article
 import com.lakmalz.lznewsapplication.ui.base.BaseFragment
 import com.lakmalz.lznewsapplication.ui.home.headline.AdapterNewsList.ItemClickListener
 import com.lakmalz.lznewsapplication.util.DEFAULT_COUNTRY
+import com.lakmalz.lznewsapplication.util.EndlessRecyclerViewScrollListener
 import com.lakmalz.lznewsapplication.util.getVisibility
 import kotlinx.android.synthetic.main.fragment_headline.*
 
 
 class HeadlineFragment : BaseFragment(), ItemClickListener {
 
-    private var mLayoutmanager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+    private var page = 1
+    private var pageSize = 20
+    private var totalResult = 0
     private lateinit var mAdapter: AdapterNewsList
+    private lateinit var mScroller: EndlessRecyclerViewScrollListener
+    private var mLayoutmanager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
     private val mViewModel: HeadlinesViewModel by lazy {
         ViewModelProvider(this, viewModelFactory)[HeadlinesViewModel::class.java]
@@ -45,7 +50,10 @@ class HeadlineFragment : BaseFragment(), ItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
-        mViewModel.fetchHeadlines(DEFAULT_COUNTRY)
+        mScroller.resetState()
+        page = 1
+        totalResult = 0
+        mViewModel.fetchHeadlines(DEFAULT_COUNTRY, pageSize, page)
         observerProgress()
         observerNoInternet()
         observerError()
@@ -56,35 +64,23 @@ class HeadlineFragment : BaseFragment(), ItemClickListener {
         mAdapter = AdapterNewsList()
         rv_list.adapter = mAdapter
         rv_list.layoutManager = mLayoutmanager
-        mAdapter?.let {
-            it.itemClickListener = this
-        }
         val offsetPx = dpToPx(16)
         rv_list.addItemDecoration(StartOffsetItemDecoration(offsetPx))
         rv_list.addItemDecoration(EndOffsetItemDecoration(offsetPx))
         val dividerDrawable = ContextCompat.getDrawable(context!!, R.drawable.shap_divider)
         rv_list.addItemDecoration(DividerItemDecoration(dividerDrawable))
-
-        /*rv_list!!.addOnScrollListener(object: RecyclerView.OnScrollListener(){
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-            }
-
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (dy > 0) {
-                    visibleItemCount = mLayoutmanager.childCount
-                    totalItemCount = mLayoutmanager.itemCount
-                    pastVisibleItemCount = (rv_list.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
-                    if (!isLoading) {
-                        if (visibleItemCount + pastVisibleItemCount >= totalItemCount) {
-                            isLoading = true
-                            pageId ++
-                            mViewModel.fetchHeadlines()
-                        }
-                    }
+        mScroller = object : EndlessRecyclerViewScrollListener(mLayoutmanager) {
+            override fun onLoadMore(p: Int, totalItemsCount: Int, view: RecyclerView?) {
+                if (totalItemsCount <= totalResult) {
+                    page++
+                    mViewModel.fetchHeadlines(DEFAULT_COUNTRY,pageSize, page)
                 }
             }
-        })*/
+        }
+        mAdapter?.let {
+            it.itemClickListener = this
+        }
+        rv_list.addOnScrollListener(mScroller)
 
     }
 
@@ -96,7 +92,7 @@ class HeadlineFragment : BaseFragment(), ItemClickListener {
 
     private fun observerNoInternet() {
         mViewModel.noInternetError().observe(viewLifecycleOwner, Observer {
-            showMessage("No Internet.", "Please check your internet settings.")
+            showMessage(getString(R.string.no_internet), getString(R.string.no_internet_message))
         })
     }
 
@@ -106,14 +102,21 @@ class HeadlineFragment : BaseFragment(), ItemClickListener {
         })
     }
 
+    /**
+     * Headline list observer
+     */
     private fun observeHeadline() {
         mViewModel.getHeadlinesLiveData().observe(viewLifecycleOwner, Observer {
             if (it != null) {
+                totalResult = it.totalResults
                 mAdapter.addList(it.articles)
             }
         })
     }
 
+    /**
+     * Adapter item click method
+     */
     override fun onItemClick(position: Int, item: Article) {
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(item.url)))
     }

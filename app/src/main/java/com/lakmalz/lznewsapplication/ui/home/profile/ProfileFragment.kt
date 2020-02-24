@@ -81,9 +81,9 @@ class ProfileFragment : BaseFragment() {
                 btn_register.text = getString(R.string.register)
                 edt_user_name.visibility = View.VISIBLE
                 txt_title.text = getString(R.string.email)
+                chip_group_key_words.findViewById<Chip>(chip_group_key_words.checkedChipId)
+                    .isChecked = false
                 mViewModel.logoutUser()
-                Toast.makeText(context, getString(R.string.message_logout), Toast.LENGTH_SHORT)
-                    .show()
                 return@setOnClickListener
             }
 
@@ -91,19 +91,13 @@ class ProfileFragment : BaseFragment() {
             val selectedChip =
                 chip_group_key_words.findViewById<Chip>(chip_group_key_words.checkedChipId)
             if (selectedChip == null) {
-                Toast.makeText(
-                    context,
-                    getString(R.string.message_empty_keyword),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
+                showMessage("Error", getString(R.string.message_empty_keyword))
                 return@setOnClickListener
             } else if (userName.isNullOrEmpty()) {
-                Toast.makeText(context, getString(R.string.message_empty_email), Toast.LENGTH_SHORT)
-                    .show()
+                showMessage("Error", getString(R.string.message_empty_email))
                 return@setOnClickListener
             }
-
+            hideKeyboard()
             mViewModel.saveUserName(userName)
         }
     }

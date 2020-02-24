@@ -2,23 +2,19 @@ package com.lakmalz.lznewsapplication.ui.home
 
 import android.os.Bundle
 import androidx.appcompat.app.ActionBar
-import com.lakmalz.lznewsapplication.R
-import com.lakmalz.lznewsapplication.ui.base.BaseActivity
-import kotlinx.android.synthetic.main.activity_home.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.lakmalz.lznewsapplication.R
+import com.lakmalz.lznewsapplication.ui.base.BaseActivity
 import com.lakmalz.lznewsapplication.ui.home.customnews.CustomNewsFragment
 import com.lakmalz.lznewsapplication.ui.home.headline.HeadlineFragment
-import com.lakmalz.lznewsapplication.ui.home.headline.HeadlinesViewModel
 import com.lakmalz.lznewsapplication.ui.home.profile.ProfileFragment
+import kotlinx.android.synthetic.main.activity_home.*
 
 
 class HomeActivity : BaseActivity() {
 
-    private  var selectedViewId: Int = 0
-    private lateinit var headlineFragment: HeadlineFragment
-    private lateinit var customeNewsFragment: CustomNewsFragment
-    private lateinit var profileFragment: ProfileFragment
+    private var selectedViewId: Int = 0
     private lateinit var appbar: ActionBar
 
     private val mViewModel: HomeViewModel by lazy {
@@ -43,7 +39,6 @@ class HomeActivity : BaseActivity() {
         transaction.commit()
     }
 
-
     private fun initUI() {
 
         nav_view.setOnNavigationItemSelectedListener {
@@ -52,12 +47,20 @@ class HomeActivity : BaseActivity() {
 
             when (it.itemId) {
                 R.id.navigation_headline -> {
-                    loadFragment(HeadlineFragment.newInstance(), getString(R.string.title_headlines))
+                    loadFragment(
+                        HeadlineFragment.newInstance(),
+                        getString(R.string.title_headlines)
+                    )
                 }
                 R.id.navigation_news -> {
-                    if (mViewModel.getUserData().userName != null) {
-                        loadFragment(CustomNewsFragment.newInstance(), getString(R.string.title_news))
+                    if (mViewModel.getUserData().userName == null) {
+                        showMessage("Alert", "You are not a registered user.Please register here")
+                        return@setOnNavigationItemSelectedListener false
                     }
+                    loadFragment(
+                        CustomNewsFragment.newInstance(),
+                        getString(R.string.title_news)
+                    )
                 }
                 R.id.navigation_profile -> {
                     loadFragment(ProfileFragment.newInstance(), getString(R.string.title_ptofile))

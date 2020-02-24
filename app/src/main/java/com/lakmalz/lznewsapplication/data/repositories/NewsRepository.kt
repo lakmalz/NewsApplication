@@ -3,9 +3,9 @@ package com.lakmalz.lznewsapplication.data.repositories
 import androidx.lifecycle.MutableLiveData
 import com.lakmalz.lznewsapplication.data.network.NewsService
 import com.lakmalz.lznewsapplication.data.network.responsemodels.NewsListResponse
+import com.lakmalz.lznewsapplication.ui.base.BaseRepository
 import com.lakmalz.lznewsapplication.util.CustomKeyWords
 import com.lakmalz.lznewsapplication.util.HttpRequestStatus
-import com.lakmalz.lznewsapplication.ui.base.BaseRepository
 import com.lakmalz.lznewsapplication.util.NoInternetException
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
@@ -26,8 +26,8 @@ class NewsRepository @Inject constructor(private val api: NewsService) : BaseRep
     /**
      * get headline news list form API
      */
-    fun fetchHeadlines(country: String?) {
-        api.getHeadLines(country)
+    fun fetchHeadlines(country: String?, pageSize: Int, page: Int) {
+        api.getHeadLines(country, pageSize, page)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { getProgress().postValue(true) }
@@ -63,8 +63,8 @@ class NewsRepository @Inject constructor(private val api: NewsService) : BaseRep
      * get custom news list from API
      * by selected news type
      */
-    fun fetchCustomNewList(@CustomKeyWords category: String?) {
-        api.getCustomNews(category)
+    fun fetchCustomNewList(@CustomKeyWords category: String?, pageSize: Int, page: Int) {
+        api.getCustomNews(category, pageSize, page)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { getProgress().postValue(true) }

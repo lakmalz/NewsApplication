@@ -6,6 +6,16 @@
         <item name="colorPrimary">@color/perl_white</item>
         <item name="colorPrimaryDark">@color/perl_white_dark</item>
         <item name="colorAccent">@color/colorAccent</item>
-    </style>s
+    </style>
+
+    <style name="MaterialButtonRed1" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">#4D4D4D</item>
+        <item name="rippleColor">@color/colorAccent</item>
+        <item name="elevation">5dp</item>
+        <item name="cornerRadius">20dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">11sp</item>
+    </style>
 
 </resources>

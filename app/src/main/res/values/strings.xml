@@ -16,4 +16,6 @@
     <string name="email">Email</string>
     <string name="no_internet">No Internet.</string>
     <string name="no_internet_message">Please check your internet settings.</string>
+    <string name="oops_wmthing_went_wrong">Please try again. Something went wrong.</string>
+    <string name="alert">Alert</string>
 </resources>

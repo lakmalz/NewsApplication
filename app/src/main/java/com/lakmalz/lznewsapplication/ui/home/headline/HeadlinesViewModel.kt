@@ -9,6 +9,6 @@ class HeadlinesViewModel @Inject constructor(private val repo: NewsRepository) :
 
     fun getHeadlinesLiveData() = repo.getHeadlinesLiveData()
 
-    fun fetchHeadlines(country: String?) = repo.fetchHeadlines(country)
+    fun fetchHeadlines(country: String?, pageSize: Int, page: Int) = repo.fetchHeadlines(country, pageSize, page)
 
 }

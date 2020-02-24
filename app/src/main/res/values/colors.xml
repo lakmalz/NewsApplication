@@ -11,4 +11,6 @@
     <color name="light_gray">#C5C5C5</color>
     <color name="ripple_color">#6B6262</color>
     <color name="selected_orange">#FF7272</color>
+    <color name="list_bg">#D3D3D3</color>
+    <color name="nav_bg">#B6B6B6</color>
 </resources>

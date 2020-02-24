@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lakmalz.lznewsapplication.R
 import com.lakmalz.lznewsapplication.data.models.Article
+import com.lakmalz.lznewsapplication.util.Utils
 import com.lakmalz.lznewsapplication.util.inflate
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_headline.view.*
@@ -38,8 +39,12 @@ class AdapterNewsList() : RecyclerView.Adapter<AdapterNewsList.HeadlineItemViewH
 
             txt_description.text = item.description
             txt_title.text = item.description
-            txt_author.text = item.author
-            txt_published.text = item.publishedAt
+            if (!item.author.isNullOrEmpty()) {
+                txt_author.text = "Written by : ${item.author}"
+            }
+            if (!item.publishedAt.isNullOrEmpty()) {
+                txt_published.text = Utils.getFormatedDatewithTwoDecomalNormalForDashSeparatedFormat(item.publishedAt)
+            }
             this.setOnClickListener {
                 itemClickListener?.onItemClick(adapterPosition, item)
             }
